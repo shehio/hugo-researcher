@@ -50,6 +50,7 @@ $y-medium: 1.0rem;
 }
 .container {
     max-width: $max-width;
+    text-align: justify;
 }
 .navbar-brand {
     @extend %link-dark;
