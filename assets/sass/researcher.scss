@@ -51,6 +51,9 @@ $y-medium: 1.0rem;
 .container {
     max-width: $max-width;
     text-align: justify;
+    @media screen and (max-width: 600px) {
+        text-align: left;
+    }
 }
 .navbar-brand {
     @extend %link-dark;
