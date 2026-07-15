@@ -10,22 +10,39 @@ $black-dark: {{ .Param "style.colorBlackDark" | default "#e6e1d6" }};
 $red-dark: {{ .Param "style.colorRedDark" | default "#c4857a" }};
 $paper-dark: {{ .Param "style.colorPaperDark" | default "#1b1916" }};
 
-:root {
-    color-scheme: light dark;
+@mixin light-tokens {
     --ink: #{$black};
     --accent: #{$red};
     --paper: #{$paper};
     --rule: #{mix($black, $paper, 18%)};
     --panel: #{mix($black, $paper, 5%)};
 }
+@mixin dark-tokens {
+    --ink: #{$black-dark};
+    --accent: #{$red-dark};
+    --paper: #{$paper-dark};
+    --rule: #{mix($black-dark, $paper-dark, 22%)};
+    --panel: #{mix($black-dark, $paper-dark, 8%)};
+}
+
+:root {
+    color-scheme: light dark;
+    @include light-tokens;
+}
 @media (prefers-color-scheme: dark) {
     :root {
-        --ink: #{$black-dark};
-        --accent: #{$red-dark};
-        --paper: #{$paper-dark};
-        --rule: #{mix($black-dark, $paper-dark, 22%)};
-        --panel: #{mix($black-dark, $paper-dark, 8%)};
+        @include dark-tokens;
     }
+}
+// Manual override set by the theme toggle; attribute selector outweighs
+// the bare :root above so it wins over the system preference either way.
+:root[data-theme="light"] {
+    color-scheme: light;
+    @include light-tokens;
+}
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    @include dark-tokens;
 }
 
 // Font
@@ -92,6 +109,16 @@ hr {
 }
 .nav-link {
     @extend %link-default;
+}
+#theme-toggle {
+    background: none;
+    border: none;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 0 0.25rem;
+    &:hover {
+        color: var(--accent);
+    }
 }
 #content {
     a {
