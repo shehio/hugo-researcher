@@ -5,9 +5,13 @@ $avatar-size: {{ .Param "style.avatarSize" | default "90px" }};
 // Colors
 $black: {{ .Param "style.colorBlack" | default "#222222" }};
 $red: {{ .Param "style.colorRed" | default "#dc3545" }};
+$paper: {{ .Param "style.colorPaper" | default "#ffffff" }};
+$rule: mix($black, $paper, 18%);
+$panel: mix($black, $paper, 5%);
 
 // Font
 $font-family: {{ .Param "style.fontFamily" | default "Inconsolata" }};
+$font-family-display: {{ .Param "style.fontFamilyDisplay" | default "inherit" }};
 
 // Margins
 $y-small: 0.6rem;
@@ -37,7 +41,7 @@ $y-medium: 1.0rem;
     }
 }
 %table-cell {
-    border: 1px solid #cccccc;
+    border: 1px solid $rule;
     padding: 6px 12px;
     text-align: left;
 }
@@ -46,7 +50,13 @@ $y-medium: 1.0rem;
 * {
     color: $black;
     font-family: $font-family;
-    line-height: 1.2;
+    line-height: 1.6;
+}
+body {
+    background-color: $paper;
+}
+hr {
+    border-top: 1px solid $rule;
 }
 .container {
     max-width: $max-width;
@@ -57,7 +67,9 @@ $y-medium: 1.0rem;
 }
 .navbar-brand {
     @extend %link-dark;
+    font-family: $font-family-display;
     font-size: 2rem;
+    letter-spacing: 0.01em;
 }
 .nav-link {
     @extend %link-default;
@@ -70,13 +82,15 @@ $y-medium: 1.0rem;
         margin-bottom: $y-small;
     }
     h1, h2, h3, h4, h5, h6 {
+        font-family: $font-family-display;
         font-size: medium;
         font-weight: bold;
+        line-height: 1.25;
         margin: $y-medium 0 $y-small 0;
     }
     @for $i from 1 through 4 {
         h#{$i} {
-            font-size: 1.2rem + 0.2 * (4 - $i);
+            font-size: 1.3rem + 0.25 * (4 - $i);
         }
     }
     img {
@@ -131,20 +145,20 @@ $y-medium: 1.0rem;
             @extend %table-cell;
         }
         & tr:nth-child(2n) {
-            background-color: #f8f8f8;
+            background-color: $panel;
         }
     }
     blockquote {
-        border-left: 4px solid;
+        border-left: 4px solid $red;
         font-style: italic;
         margin: $y-medium 0;
         padding: 8px 8px;
     }
     code {
         color: $black;
-        background-color: #f8f8f8;
-        border: 1px solid #cccccc;
-        border-radius: 10%;
+        background-color: $panel;
+        border: 1px solid $rule;
+        border-radius: 3px;
         padding: 0px 4px;
     }
     pre code {
