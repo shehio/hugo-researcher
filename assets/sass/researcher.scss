@@ -6,8 +6,27 @@ $avatar-size: {{ .Param "style.avatarSize" | default "90px" }};
 $black: {{ .Param "style.colorBlack" | default "#222222" }};
 $red: {{ .Param "style.colorRed" | default "#dc3545" }};
 $paper: {{ .Param "style.colorPaper" | default "#ffffff" }};
-$rule: mix($black, $paper, 18%);
-$panel: mix($black, $paper, 5%);
+$black-dark: {{ .Param "style.colorBlackDark" | default "#e6e1d6" }};
+$red-dark: {{ .Param "style.colorRedDark" | default "#c4857a" }};
+$paper-dark: {{ .Param "style.colorPaperDark" | default "#1b1916" }};
+
+:root {
+    color-scheme: light dark;
+    --ink: #{$black};
+    --accent: #{$red};
+    --paper: #{$paper};
+    --rule: #{mix($black, $paper, 18%)};
+    --panel: #{mix($black, $paper, 5%)};
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ink: #{$black-dark};
+        --accent: #{$red-dark};
+        --paper: #{$paper-dark};
+        --rule: #{mix($black-dark, $paper-dark, 22%)};
+        --panel: #{mix($black-dark, $paper-dark, 8%)};
+    }
+}
 
 // Font
 $font-family: {{ .Param "style.fontFamily" | default "Inconsolata" }};
@@ -19,44 +38,44 @@ $y-medium: 1.0rem;
 
 // Placeholders
 %link-default {
-    color: $red;
+    color: var(--accent);
     text-decoration: none;
     & * {
-        color: $red;
+        color: var(--accent);
     }
     &:hover {
-        color: $red;
+        color: var(--accent);
         text-decoration: underline;
     }
 }
 %link-dark {
-    color: $black;
+    color: var(--ink);
     text-decoration: none;
     & * {
-        color: $black;
+        color: var(--ink);
     }
     &:hover {
-        color: $black;
+        color: var(--ink);
         text-decoration: underline;
     }
 }
 %table-cell {
-    border: 1px solid $rule;
+    border: 1px solid var(--rule);
     padding: 6px 12px;
     text-align: left;
 }
 
 // Style
 * {
-    color: $black;
+    color: var(--ink);
     font-family: $font-family;
     line-height: 1.6;
 }
 body {
-    background-color: $paper;
+    background-color: var(--paper);
 }
 hr {
-    border-top: 1px solid $rule;
+    border-top: 1px solid var(--rule);
 }
 .container {
     max-width: $max-width;
@@ -77,6 +96,9 @@ hr {
 #content {
     a {
         @extend %link-default;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
     }
     p {
         margin-bottom: $y-small;
@@ -145,19 +167,19 @@ hr {
             @extend %table-cell;
         }
         & tr:nth-child(2n) {
-            background-color: $panel;
+            background-color: var(--panel);
         }
     }
     blockquote {
-        border-left: 4px solid $red;
+        border-left: 4px solid var(--accent);
         font-style: italic;
         margin: $y-medium 0;
         padding: 8px 8px;
     }
     code {
-        color: $black;
-        background-color: $panel;
-        border: 1px solid $rule;
+        color: var(--ink);
+        background-color: var(--panel);
+        border: 1px solid var(--rule);
         border-radius: 3px;
         padding: 0px 4px;
     }
