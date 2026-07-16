@@ -5,49 +5,9 @@ $avatar-size: {{ .Param "style.avatarSize" | default "90px" }};
 // Colors
 $black: {{ .Param "style.colorBlack" | default "#222222" }};
 $red: {{ .Param "style.colorRed" | default "#dc3545" }};
-$paper: {{ .Param "style.colorPaper" | default "#ffffff" }};
-$black-dark: {{ .Param "style.colorBlackDark" | default "#e6e1d6" }};
-$red-dark: {{ .Param "style.colorRedDark" | default "#c4857a" }};
-$paper-dark: {{ .Param "style.colorPaperDark" | default "#1b1916" }};
-
-@mixin light-tokens {
-    --ink: #{$black};
-    --accent: #{$red};
-    --paper: #{$paper};
-    --rule: #{mix($black, $paper, 18%)};
-    --panel: #{mix($black, $paper, 5%)};
-}
-@mixin dark-tokens {
-    --ink: #{$black-dark};
-    --accent: #{$red-dark};
-    --paper: #{$paper-dark};
-    --rule: #{mix($black-dark, $paper-dark, 22%)};
-    --panel: #{mix($black-dark, $paper-dark, 8%)};
-}
-
-:root {
-    color-scheme: light dark;
-    @include light-tokens;
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        @include dark-tokens;
-    }
-}
-// Manual override set by the theme toggle; attribute selector outweighs
-// the bare :root above so it wins over the system preference either way.
-:root[data-theme="light"] {
-    color-scheme: light;
-    @include light-tokens;
-}
-:root[data-theme="dark"] {
-    color-scheme: dark;
-    @include dark-tokens;
-}
 
 // Font
 $font-family: {{ .Param "style.fontFamily" | default "Inconsolata" }};
-$font-family-display: {{ .Param "style.fontFamilyDisplay" | default "inherit" }};
 
 // Margins
 $y-small: 0.6rem;
@@ -55,44 +15,38 @@ $y-medium: 1.0rem;
 
 // Placeholders
 %link-default {
-    color: var(--accent);
+    color: $red;
     text-decoration: none;
     & * {
-        color: var(--accent);
+        color: $red;
     }
     &:hover {
-        color: var(--accent);
+        color: $red;
         text-decoration: underline;
     }
 }
 %link-dark {
-    color: var(--ink);
+    color: $black;
     text-decoration: none;
     & * {
-        color: var(--ink);
+        color: $black;
     }
     &:hover {
-        color: var(--ink);
+        color: $black;
         text-decoration: underline;
     }
 }
 %table-cell {
-    border: 1px solid var(--rule);
+    border: 1px solid #cccccc;
     padding: 6px 12px;
     text-align: left;
 }
 
 // Style
 * {
-    color: var(--ink);
+    color: $black;
     font-family: $font-family;
-    line-height: 1.6;
-}
-body {
-    background-color: var(--paper);
-}
-hr {
-    border-top: 1px solid var(--rule);
+    line-height: 1.2;
 }
 .container {
     max-width: $max-width;
@@ -103,55 +57,26 @@ hr {
 }
 .navbar-brand {
     @extend %link-dark;
-    font-family: $font-family-display;
     font-size: 2rem;
-    letter-spacing: 0.01em;
 }
 .nav-link {
     @extend %link-default;
 }
-#theme-toggle {
-    background: none;
-    border: none;
-    color: var(--ink);
-    cursor: pointer;
-    padding: 0.5rem;
-    line-height: inherit;
-    display: flex;
-    align-items: center;
-    transition: color 0.15s ease;
-    &:hover {
-        color: var(--accent);
-    }
-    &:focus {
-        outline: none;
-    }
-    &:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-        border-radius: 2px;
-    }
-}
 #content {
     a {
         @extend %link-default;
-        text-decoration: underline;
-        text-decoration-thickness: 1px;
-        text-underline-offset: 3px;
     }
     p {
         margin-bottom: $y-small;
     }
     h1, h2, h3, h4, h5, h6 {
-        font-family: $font-family-display;
         font-size: medium;
         font-weight: bold;
-        line-height: 1.25;
         margin: $y-medium 0 $y-small 0;
     }
     @for $i from 1 through 4 {
         h#{$i} {
-            font-size: 1.3rem + 0.25 * (4 - $i);
+            font-size: 1.2rem + 0.2 * (4 - $i);
         }
     }
     img {
@@ -206,20 +131,20 @@ hr {
             @extend %table-cell;
         }
         & tr:nth-child(2n) {
-            background-color: var(--panel);
+            background-color: #f8f8f8;
         }
     }
     blockquote {
-        border-left: 4px solid var(--accent);
+        border-left: 4px solid;
         font-style: italic;
         margin: $y-medium 0;
         padding: 8px 8px;
     }
     code {
-        color: var(--ink);
-        background-color: var(--panel);
-        border: 1px solid var(--rule);
-        border-radius: 3px;
+        color: $black;
+        background-color: #f8f8f8;
+        border: 1px solid #cccccc;
+        border-radius: 10%;
         padding: 0px 4px;
     }
     pre code {
